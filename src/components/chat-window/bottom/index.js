@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import { Alert, Icon, Input, InputGroup } from 'rsuite';
-import firebase from 'firebase/app';
 import { useParams } from 'react-router';
+import { InputGroup, Input, Icon, Alert } from 'rsuite';
+import firebase from 'firebase/app';
 import { useProfile } from '../../../context/profile.context';
 import { database } from '../../../misc/firebase';
 
@@ -15,10 +15,11 @@ function assembleMessage(profile, chatId) {
       ...(profile.avatar ? { avatar: profile.avatar } : {}),
     },
     createdAt: firebase.database.ServerValue.TIMESTAMP,
+    likeCount: 0,
   };
 }
 const Bottom = () => {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(``);
   const [isLoading, setIsLoading] = useState(false);
 
   const { chatId } = useParams();
@@ -32,10 +33,8 @@ const Bottom = () => {
     if (input.trim() === '') {
       return;
     }
-
     const msgData = assembleMessage(profile, chatId);
     msgData.text = input;
-
     const updates = {};
 
     const messageId = database.ref('messages').push().key;
@@ -45,12 +44,12 @@ const Bottom = () => {
       ...msgData,
       msgId: messageId,
     };
-
     setIsLoading(true);
+
     try {
       await database.ref().update(updates);
 
-      setInput('');
+      setInput(``);
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
@@ -58,23 +57,21 @@ const Bottom = () => {
     }
   };
 
-  const onkeyDown = ev => {
-    if (ev.keycode === 13) {
+  const onKeyDown = ev => {
+    if (ev.keyCode === 13) {
       ev.preventDefault();
       onSendClick();
     }
   };
-
   return (
     <div>
       <InputGroup>
         <Input
-          placeholder="write a new message here..."
+          placeholder="Write a new message here..."
           value={input}
           onChange={onInputChange}
-          onkeyDown={onkeyDown}
+          onKeyDown={onKeyDown}
         />
-
         <InputGroup.Button
           color="blue"
           appearance="primary"

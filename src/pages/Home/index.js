@@ -7,7 +7,7 @@ import Chat from './Chat';
 import { useMediaQuery } from '../../misc/custom-hooks';
 
 const Home = () => {
-  const isDesktop = useMediaQuery('(min-width: 992px)');
+  const isDesktop = useMediaQuery('(min-width:992px)');
 
   const { isExact } = useRouteMatch();
 
@@ -22,6 +22,7 @@ const Home = () => {
               <Sidebar />
             </Col>
           )}
+
           <Switch>
             <Route exact path="/chat/:chatId">
               <Col xs={24} md={16} className="h-100">
@@ -31,7 +32,7 @@ const Home = () => {
             <Route>
               {isDesktop && (
                 <Col xs={24} md={16} className="h-100">
-                  <h6 className="text-center mt=page">Please select chat</h6>
+                  <h6 className="text-center mt-page">Please select chat</h6>
                 </Col>
               )}
             </Route>

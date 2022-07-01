@@ -11,7 +11,7 @@ const RoomInfoBtnModal = () => {
   return (
     <>
       <Button appearance="link" className="px-0" onClick={open}>
-        Room information
+        Room Information
       </Button>
       <Modal show={isOpen} onHide={close}>
         <Modal.Header>
@@ -23,7 +23,7 @@ const RoomInfoBtnModal = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button block onClick={close}>
-            close
+            Close
           </Button>
         </Modal.Footer>
       </Modal>

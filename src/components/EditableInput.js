@@ -1,12 +1,13 @@
-import React, { useCallback, useState } from 'react';
-import { Alert, Icon, Input, InputGroup } from 'rsuite';
+import React, { useState, useCallback } from 'react';
+import { Input, InputGroup, Icon, Alert } from 'rsuite';
 
 const EditableInput = ({
   initialValue,
   onSave,
   label = null,
-  placeholder = 'write your value',
+  placeholder = 'Write your value',
   emptyMsg = 'Input is empty',
+  wrapperClassName = '',
   ...inputProps
 }) => {
   const [input, setInput] = useState(initialValue);
@@ -26,6 +27,7 @@ const EditableInput = ({
 
     if (trimmed === '') {
       Alert.info(emptyMsg, 4000);
+      return;
     }
 
     if (trimmed !== initialValue) {
@@ -36,7 +38,7 @@ const EditableInput = ({
   };
 
   return (
-    <div>
+    <div className={wrapperClassName}>
       {label}
       <InputGroup>
         <Input

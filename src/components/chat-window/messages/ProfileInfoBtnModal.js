@@ -9,7 +9,9 @@ const ProfileInfoBtnModal = ({ profile, children, ...btnProps }) => {
   const { name, avatar, createdAt } = profile;
 
   const shortName = profile.name.split(' ')[0];
+
   const memberSince = new Date(createdAt).toLocaleDateString();
+
   return (
     <>
       <Button {...btnProps} onClick={open}>
@@ -33,7 +35,7 @@ const ProfileInfoBtnModal = ({ profile, children, ...btnProps }) => {
         <Modal.Footer>
           {children}
           <Button block onClick={close}>
-            close
+            Close
           </Button>
         </Modal.Footer>
       </Modal>

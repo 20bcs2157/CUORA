@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 export function getNameInitials(name) {
   const splitName = name.toUpperCase().split(' ');
 
@@ -8,20 +9,21 @@ export function getNameInitials(name) {
   return splitName[0][0];
 }
 
-export function transformToArr(snapval) {
-  return snapval ? Object.keys(snapval) : [];
+export function transformToArr(snapVal) {
+  return snapVal ? Object.keys(snapVal) : [];
 }
 
-export function transformToArrWithId(snapval) {
-  return snapval
-    ? Object.keys(snapval).map(roomId => {
-        return { ...snapval[roomId], id: roomId };
+export function transformToArrWithId(snapVal) {
+  return snapVal
+    ? Object.keys(snapVal).map(roomId => {
+        return { ...snapVal[roomId], id: roomId };
       })
     : [];
 }
 
 export async function getUserUpdates(userId, keyToUpdate, value, db) {
   const updates = {};
+
   updates[`/profiles/${userId}/${keyToUpdate}`] = value;
 
   const getMsgs = db
@@ -29,6 +31,7 @@ export async function getUserUpdates(userId, keyToUpdate, value, db) {
     .orderByChild('author/uid')
     .equalTo(userId)
     .once('value');
+
   const getRooms = db
     .ref('/rooms')
     .orderByChild('lastMessage/author/uid')
@@ -46,4 +49,18 @@ export async function getUserUpdates(userId, keyToUpdate, value, db) {
   });
 
   return updates;
+}
+
+export function groupBy(array, groupingKeyFn) {
+  return array.reduce((result, item) => {
+    const groupingKey = groupingKeyFn(item);
+
+    if (!result[groupingKey]) {
+      result[groupingKey] = [];
+    }
+
+    result[groupingKey].push(item);
+
+    return result;
+  }, {});
 }
